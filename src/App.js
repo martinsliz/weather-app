@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.css'
 import cold from './assets/cold.jpg'
-import hot from './assets/hot.jpg'
+// import hot from './assets/hot.jpg'
 import Descriptions from './components/Descriptions'
 
 const App = () => {
