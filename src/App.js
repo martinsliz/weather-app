@@ -1,10 +1,18 @@
-import React from 'react'
+import { useEffect } from 'react'
 import './index.css'
 import cold from './assets/cold.jpg'
 // import hot from './assets/hot.jpg'
 import Descriptions from './components/Descriptions'
+import { getWeather } from './weatherService'
 
 const App = () => {
+  useEffect(() => {
+    const fetchWeather = async () => {
+      const data = await getWeather('paris')
+    }
+    fetchWeather()
+  }, [])
+
   return (
     <div className="app" style={{ backgroundImage: `url(${cold})` }}>
       <div className="overlay">
