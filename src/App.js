@@ -7,15 +7,26 @@ import { getWeather } from './weatherService'
 
 const App = () => {
   const [weather, setWeather] = useState(null)
+  const [units, setUnits] = useState('imperial')
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const data = await getWeather('paris')
+      const data = await getWeather('Boston', units)
       setWeather(data)
-      // console.log(data)
+      console.log(data)
     }
     fetchWeather()
-  }, [])
+  }, [units])
+
+  const handleUnits = (e) => {
+    const button = e.currentTarget
+    const currentUnit = button.innerText.slice(1)
+    console.log(currentUnit)
+
+    const isCelsius = currentUnit === 'C'
+    button.innerText = isCelsius ? '°F' : '°C'
+    setUnits(isCelsius ? 'metric' : 'imperial')
+  }
 
   return (
     <div className="app" style={{ backgroundImage: `url(${cold})` }}>
@@ -28,20 +39,26 @@ const App = () => {
                 name="city"
                 placeholder="Enter City..."
               ></input>
-              <button>°F</button>
+              <button onClick={(e) => handleUnits(e)}>°F</button>
             </div>
             <div className="section section__temperature">
               <div className="icon">
-                <h3>London, GB</h3>
-                <img src="" alt="weather" />
-                <h3>Cloudy</h3>
+                <h3>
+                  {weather.name}, {weather.country}
+                </h3>
+                <img src={weather.iconURL} alt="weather" />
+                <h3>{weather.description}</h3>
               </div>
               <div className="temperature">
-                <h1>35 °C</h1>
+                <h1>
+                  {`${weather.temp.toFixed()} °${
+                    units === 'metric' ? 'C' : 'F'
+                  }`}
+                </h1>
               </div>
             </div>
             {/* bottom description */}
-            <Descriptions />
+            <Descriptions weather={weather} units={units} />
           </div>
         )}
       </div>
